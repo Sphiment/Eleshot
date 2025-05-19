@@ -9,11 +9,31 @@ chrome.action.onClicked.addListener((tab) => {
     });
 });
 
+// Add queue to throttle captureVisibleTab calls
+let captureQueue = [];
+let capturing = false;
+
+// Modify message listener to enqueue capture requests
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.action === 'capture-element') {
-        chrome.tabs.captureVisibleTab(null, {format: 'png'}, (dataUrl) => {
-            sendResponse({ img: dataUrl });
-        });
+        // Enqueue the sendResponse callback and process queue
+        captureQueue.push(sendResponse);
+        processQueue();
         return true; // Will respond asynchronously
     }
 });
+
+// Process capture queue one at a time with delay to avoid quota errors
+function processQueue() {
+    if (capturing || captureQueue.length === 0) return;
+    capturing = true;
+    const send = captureQueue.shift();
+    chrome.tabs.captureVisibleTab(null, { format: 'png' }, (dataUrl) => {
+        send({ img: dataUrl });
+        // Delay next capture to respect MAX_PER_SECOND quota
+        setTimeout(() => {
+            capturing = false;
+            processQueue();
+        }, 200);
+    });
+}

@@ -101,8 +101,9 @@ function onClick(e) {
     if (!elem || elem === overlay) return;
     const rect = elem.getBoundingClientRect();
 
-    // Remove picker UI immediately
-    stopPicker();
+    // Hide highlight (but keep overlay active to block hover/click)
+    highlightBox.style.display = 'none';
+    dimensionBox.style.display = 'none';
 
     // Delay capture slightly to ensure DOM updates
     setTimeout(() => {
@@ -132,10 +133,12 @@ function onClick(e) {
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
+                // Now remove overlay and picker UI
+                stopPicker();
             };
             img.src = response.img;
         });
-    }, 50);
+    }, 10);
 }
 
 function stopPicker() {

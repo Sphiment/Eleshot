@@ -70,17 +70,22 @@ function onMouseMove(e) {
     const rect = elem.getBoundingClientRect();
     // Position highlight box to match element bounds
     highlightBox.style.display = 'block';
-    highlightBox.style.left = `${rect.left}px`;
-    highlightBox.style.top = `${rect.top}px`;
-    highlightBox.style.width = `${rect.width}px`;
-    highlightBox.style.height = `${rect.height}px`;
+    const scale = window.devicePixelRatio || 1;
+    const left   = Math.round(rect.left   * scale) / scale;
+    const top    = Math.round(rect.top    * scale) / scale;
+    const width  = Math.round(rect.width  * scale) / scale;
+    const height = Math.round(rect.height * scale) / scale;
+    highlightBox.style.left   = `${left}px`;
+    highlightBox.style.top    = `${top}px`;
+    highlightBox.style.width  = `${width}px`;
+    highlightBox.style.height = `${height}px`;
 
     // Update dimension box text and position
-    const w = Math.round(rect.width);
-    const h = Math.round(rect.height);
+    const w = Math.round(rect.width * scale);
+    const h = Math.round(rect.height * scale);
     dimensionBox.textContent = `${w}×${h}`;
     dimensionBox.style.display = 'block';
-    const boxTop = rect.top - 24;
+    const boxTop = rect.top + rect.height + 10;
     dimensionBox.style.left = `${rect.left}px`;
     dimensionBox.style.top = `${boxTop > 0 ? boxTop : rect.top}px`;
 }
@@ -105,11 +110,11 @@ function onClick(e) {
             const img = new Image();
             img.onload = () => {
                 const scale = window.devicePixelRatio || 1;
-                // Round coordinates & dimensions for pixel-perfect crop
-                const sx = Math.floor(rect.left * scale);
-                const sy = Math.floor(rect.top * scale);
-                const sw = Math.ceil(rect.width * scale);
-                const sh = Math.ceil(rect.height * scale);
+                // Use consistent rounding via Math.round to avoid one-pixel drift
+                const sx = Math.round(rect.left * scale);
+                const sy = Math.round(rect.top * scale);
+                const sw = Math.round(rect.width * scale);
+                const sh = Math.round(rect.height * scale);
                 const canvas = document.createElement('canvas');
                 canvas.width = sw;
                 canvas.height = sh;

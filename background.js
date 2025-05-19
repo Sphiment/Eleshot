@@ -8,3 +8,12 @@ chrome.action.onClicked.addListener((tab) => {
         }
     });
 });
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    if (msg.action === 'capture-element') {
+        chrome.tabs.captureVisibleTab(null, {format: 'png'}, (dataUrl) => {
+            sendResponse({ img: dataUrl });
+        });
+        return true; // Will respond asynchronously
+    }
+});

@@ -3,7 +3,7 @@
   "name": "Element Picker",
   "version": "1.0",
   "description": "Click the toolbar button to start element picking and display tag names.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "tabs"],
   "background": {
     "service_worker": "background.js"
   },

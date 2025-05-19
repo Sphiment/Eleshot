@@ -88,16 +88,48 @@ function onMouseMove(e) {
 function onClick(e) {
     e.preventDefault();
     e.stopPropagation();
+    // Find clicked element and bounds
     overlay.style.pointerEvents = 'none';
     const elem = document.elementFromPoint(e.clientX, e.clientY);
     overlay.style.pointerEvents = 'auto';
     if (!elem || elem === overlay) return;
-    // Display element name
-    const tag = elem.tagName.toLowerCase();
-    const id = elem.id ? `#${elem.id}` : '';
-    const cls = elem.classList.length ? `.${[...elem.classList].join('.')}` : '';
-    alert(`Element: ${tag}${id}${cls}`);
+    const rect = elem.getBoundingClientRect();
+
+    // Remove picker UI immediately
     stopPicker();
+
+    // Delay capture slightly to ensure DOM updates
+    setTimeout(() => {
+        chrome.runtime.sendMessage({ action: 'capture-element' }, (response) => {
+            if (!response || !response.img) return;
+            const img = new Image();
+            img.onload = () => {
+                const scale = window.devicePixelRatio || 1;
+                // Round coordinates & dimensions for pixel-perfect crop
+                const sx = Math.floor(rect.left * scale);
+                const sy = Math.floor(rect.top * scale);
+                const sw = Math.ceil(rect.width * scale);
+                const sh = Math.ceil(rect.height * scale);
+                const canvas = document.createElement('canvas');
+                canvas.width = sw;
+                canvas.height = sh;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+                const dataUrl = canvas.toDataURL('image/png');
+                // Trigger download
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                const tag = elem.tagName.toLowerCase();
+                const id = elem.id ? `#${elem.id}` : '';
+                const cls = elem.classList.length ? `.${[...elem.classList].join('.')}` : '';
+                a.download = `${tag}${id}${cls}.png`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            };
+            img.src = response.img;
+        });
+    }, 50);
 }
 
 function stopPicker() {

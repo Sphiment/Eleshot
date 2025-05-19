@@ -29,7 +29,8 @@ function startPicker() {
     highlightBox = document.createElement('div');
     Object.assign(highlightBox.style, {
         position: 'fixed',
-        border: '2px dashed #00f',
+        boxSizing: 'border-box',            // ensure borders/outlines align inside the dims
+        outline: '2px dashed #00f',         // use outline instead of border to avoid half-pixel centering
         pointerEvents: 'none',
         zIndex: '2147483648',
         display: 'none'

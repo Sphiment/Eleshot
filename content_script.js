@@ -40,7 +40,7 @@ function startPicker() {
     Object.assign(highlightBox.style, {
         position: 'fixed',
         boxSizing: 'border-box',            // ensure borders/outlines align inside the dims
-        outline: '2px dashed #00f',         // use outline instead of border to avoid half-pixel centering
+        outline: '2px dashed #28783c',         // use outline instead of border to avoid half-pixel centering
         pointerEvents: 'none',
         zIndex: '2147483648',
         display: 'none'
@@ -133,11 +133,19 @@ function onClick(e) {
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
                 
-                // Store element information for the filename when saving
-                const tag = elem.tagName.toLowerCase();
-                const id = elem.id ? `#${elem.id}` : '';
-                const cls = elem.classList.length ? `.${[...elem.classList].join('.')}` : '';
-                const filenameBase = `${tag}${id}${cls}`;
+                // Generate filename based on the new format: screenshot-sitename-YYYYMMDD-HHMMSS
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                
+                // Get site hostname from the URL
+                const hostname = window.location.hostname.replace(/^www\./, '');
+                const dateStr = `${year}${month}${day}-${hours}${minutes}${seconds}`;
+                const filenameBase = `${hostname}-${dateStr}`;
                 
                 // Create preview popup instead of immediately downloading
                 showScreenshotPreview(canvas, filenameBase);
@@ -476,9 +484,23 @@ function stopPicker() {
     }
 }
 
+// Handle Escape key press
+function handleEscapeKey(event) {
+    if (event.key === 'Escape') {
+        if (screenshotPreviewModal) {
+            closePreviewModal();
+        } else if (pickerActive) {
+            stopPicker();
+        }
+    }
+}
+
 // Listen for messages from background
 chrome.runtime.onMessage.addListener((msg) => {
     if (msg.action === 'start-picker') {
         startPicker();
     }
 });
+
+// Add global listener for Escape key
+document.addEventListener('keydown', handleEscapeKey);

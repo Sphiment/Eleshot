@@ -9,6 +9,26 @@ chrome.action.onClicked.addListener((tab) => {
     });
 });
 
+// Create context menu item
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: "eleshot",
+    title: "!Screenshot an element",
+    contexts: ["all"]
+  });
+});
+
+// Listen for context menu click
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === "eleshot" && tab && tab.id) {
+    chrome.tabs.sendMessage(tab.id, { action: "start-picker" }, () => {
+      if (chrome.runtime.lastError) {
+        // Content script not available on this page; ignore
+      }
+    });
+  }
+});
+
 // Add queue to throttle captureVisibleTab calls
 let captureQueue = [];
 let capturing = false;

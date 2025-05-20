@@ -1,9 +1,8 @@
-{
-  "manifest_version": 3,
+{  "manifest_version": 3,
   "name": "Element Picker",
   "version": "1.0",
   "description": "Click the toolbar button to start element picking and display tag names.",
-  "permissions": ["activeTab", "scripting", "tabs"],
+  "permissions": ["activeTab", "scripting", "tabs", "clipboardWrite"],
   "background": {
     "service_worker": "background.js"
   },

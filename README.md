@@ -6,3 +6,5 @@
 
 <h2>Features</h2>
 *   Precise Element Selection
+
+![60fps](https://github.com/user-attachments/assets/52781886-f744-4587-9ef8-d5a0d6c479fe)

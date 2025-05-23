@@ -8,7 +8,3 @@
 
 <h2>Features</h2>
 *   Precise Element Selection
-
-![image](https://github.com/user-attachments/assets/35e189da-5c04-48f7-85b6-03144d42b918)
-
-![image](https://github.com/user-attachments/assets/c1752a2a-d9c3-45af-85f2-d65208921126)

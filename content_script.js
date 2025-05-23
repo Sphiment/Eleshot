@@ -16,34 +16,43 @@ const imageFormats = [
     { value: 'bmp', label: 'BMP', mimeType: 'image/bmp' }
 ];
 
+// filepath: c:\Users\Zain\Downloads\eleshot\content_script.js
+// ...existing code above startPicker...
+let maskTop, maskBottom, maskLeft, maskRight;
+
 function startPicker() {
     if (pickerActive) return;
     pickerActive = true;
 
-    // Create overlay to intercept events
+    // Create overlay container
     overlay = document.createElement('div');
     Object.assign(overlay.style, {
         position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100%',
-        height: '100%',
+        top: '0', left: '0', width: '100%', height: '100%',
         zIndex: '2147483647',
-        background: 'transparent',
-        cursor: 'crosshair',
+        background: 'none',
         pointerEvents: 'auto'
     });
     document.documentElement.appendChild(overlay);
 
+    // Create dimming masks
+    [maskTop, maskBottom, maskLeft, maskRight] = Array.from({length:4}, () => document.createElement('div'));
+    [maskTop, maskBottom, maskLeft, maskRight].forEach(mask => {
+        Object.assign(mask.style, {
+            position: 'fixed',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            pointerEvents: 'none',
+            zIndex: '2147483646'
+        });
+        overlay.appendChild(mask);
+    });
+
     // Create highlight box above everything
     highlightBox = document.createElement('div');
     Object.assign(highlightBox.style, {
-        position: 'fixed',
-        boxSizing: 'border-box',            // ensure borders/outlines align inside the dims
-        outline: '2px dashed #28783c',         // use outline instead of border to avoid half-pixel centering
-        pointerEvents: 'none',
-        zIndex: '2147483648',
-        display: 'none'
+        position: 'fixed', boxSizing: 'border-box',
+        outline: '2px dashed #28783c', pointerEvents: 'none',
+        zIndex: '2147483648', display: 'none'
     });
     overlay.appendChild(highlightBox);
 
@@ -79,6 +88,29 @@ function onMouseMove(e) {
         return;
     }
     const rect = elem.getBoundingClientRect();
+
+    // Update masks to leave hole at rect
+    maskTop.style.top = '0px';
+    maskTop.style.left = '0px';
+    maskTop.style.width = '100%';
+    maskTop.style.height = `${rect.top}px`;
+
+    maskBottom.style.top = `${rect.bottom}px`;
+    maskBottom.style.left = '0px';
+    maskBottom.style.width = '100%';
+    maskBottom.style.bottom = '0px';
+    maskBottom.style.height = `calc(100% - ${rect.bottom}px)`;
+
+    maskLeft.style.top = `${rect.top}px`;
+    maskLeft.style.left = '0px';
+    maskLeft.style.width = `${rect.left}px`;
+    maskLeft.style.height = `${rect.height}px`;
+
+    maskRight.style.top = `${rect.top}px`;
+    maskRight.style.left = `${rect.right}px`;
+    maskRight.style.width = `calc(100% - ${rect.right}px)`;
+    maskRight.style.height = `${rect.height}px`;
+
     // Position highlight box to match element bounds
     highlightBox.style.display = 'block';
     const scale = window.devicePixelRatio || 1;
@@ -473,6 +505,9 @@ function closePreviewModal() {
 function stopPicker() {
     if (!pickerActive) return;
     pickerActive = false;
+    // Remove masks
+    [maskTop, maskBottom, maskLeft, maskRight].forEach(mask => mask && mask.remove());
+    maskTop = maskBottom = maskLeft = maskRight = null;
     // Remove overlay, highlight and dimension boxes
     if (overlay) {
         overlay.removeEventListener('mousemove', onMouseMove, true);

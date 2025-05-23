@@ -6,12 +6,9 @@
 
 <p align="center"><img src="https://img.shields.io/badge/Arc-222222?style=for-the-badge&amp;logo=Arc&amp;logoColor=FCBFBD" alt="shields"><img src="https://img.shields.io/badge/Brave-FB542B?style=for-the-badge&amp;logo=Brave&amp;logoColor=FFFFFF" alt="shields"><img src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&amp;logo=Firefox&amp;logoColor=FFFFFF" alt="shields"><img src="https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&amp;logo=Google+Chrome&amp;logoColor=FFFFFF" alt="shields"><img src="https://img.shields.io/badge/Opera-FF1B2D?style=for-the-badge&amp;logo=Opera&amp;logoColor=FFFFFF" alt="shields"><img src="https://img.shields.io/badge/Opera%20GX-EE2950?style=for-the-badge&amp;logo=Opera+GX&amp;logoColor=FFFFFF" alt="shields"></p>
 
-
-
-<h2>Demo</h2>
-
-<h2>Project Screenshots:</h2>
-<p align="center"><img src="https://raw.githubusercontent.com/Sphiment/Eleshot/refs/heads/main/Assets/Demo.gif" alt="demo-video"></p>
-
 <h2>Features</h2>
 *   Precise Element Selection
+
+![image](https://github.com/user-attachments/assets/35e189da-5c04-48f7-85b6-03144d42b918)
+
+![image](https://github.com/user-attachments/assets/c1752a2a-d9c3-45af-85f2-d65208921126)

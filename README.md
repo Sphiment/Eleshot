@@ -7,27 +7,17 @@
 
 ## Features
 
-*   **Precise Element Selection:**
-    *   Hover to highlight any HTML element.
-    *   A green dashed outline clearly shows the selection area.
-    *   "Spotlight" effect: The rest of the page dims, focusing attention on the element being hovered over.
-*   **Live Dimensions Display:** Instantly see the dimensions (width × height) of the element as you hover.
-*   **Single-Click Capture:** Captures the selected element with a single mouse click, ignoring subsequent clicks until the preview modal is handled.
-*   **Screenshot Preview Modal:**
-    *   **Clear Preview:** View the captured element before saving.
-    *   **Customizable Filename:**
-        *   Input field to set a custom filename.
-        *   Defaults to a smart-generated name: `screenshot-sitename-YYYYMMDD-HHMMSS`.
-    *   **Format Selection:** Choose your desired image format:
+*   **Precise Element Selection**
+*   **Live Dimensions Display** 
+*   **Single-Click Capture**
+*   **Screenshot Previews**
+    *   **Customizable Filenames**
+    *   **Format Selection:**
         *   PNG (default)
         *   JPEG
         *   WebP
         *   BMP
-    *   **Copy to Clipboard:** One-click button to copy the screenshot (as PNG) directly to your clipboard.
-    *   **Save Image:** Download the screenshot with your chosen filename and format.
-*   **User-Friendly Interface:**
-    *   Clean, dark-themed UI for the preview modal and selection tools.
-    *   Consistent styling with green accent colors for interactive elements.
+    *   **Copy to Clipboard**
 
 
 ## Installation

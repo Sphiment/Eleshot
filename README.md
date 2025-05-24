@@ -11,14 +11,14 @@
 *   **Live Dimensions Display** 
 *   **Screenshot Previews**
 *   **Customizable Filenames**
-*   **Copy to Clipboard**
 *   **Multiple Image Formats**
+*   **Copy to Clipboard Button**
 
 ## Installation
 
 ### From Chrome Web Store (Recommended)
 
-*(Once your extension is published, add a link here, e.g.: [Eleshot on Chrome Web Store](https://chrome.google.com/webstore/detail/your-extension-id))*
+*[Eleshot on Chrome Web Store](https://chrome.google.com/webstore/detail/your-extension-id))*
 (not yet accepeted)
 
 1.  Go to the Eleshot page on the Chrome Web Store.

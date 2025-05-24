@@ -1,3 +1,8 @@
+// Prevent double injection
+(function() {
+  if (window.__eleshotContentScriptInit) return;
+  window.__eleshotContentScriptInit = true;
+
 // content_script.js
 let pickerActive = false;
 let overlay = null;
@@ -134,6 +139,10 @@ function onMouseMove(e) {
 }
 
 function onClick(e) {
+    // Only handle the first click
+    if (!pickerActive) return;
+    pickerActive = false;
+
     e.preventDefault();
     e.stopPropagation();
     // Find clicked element and bounds
@@ -539,3 +548,4 @@ chrome.runtime.onMessage.addListener((msg) => {
 
 // Add global listener for Escape key
 document.addEventListener('keydown', handleEscapeKey);
+})();

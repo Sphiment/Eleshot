@@ -1,13 +1,24 @@
 // background.js
 // Listens for the toolbar button click and starts the element picker
 chrome.action.onClicked.addListener((tab) => {
-    if (!tab.id) return;
-    chrome.tabs.sendMessage(tab.id, { action: "start-picker" }, () => {
-        if (chrome.runtime.lastError) {
-            // Content script not available on this page; ignore
-        }
-    });
+    if (tab.id) injectAndStartPicker(tab.id);
 });
+
+async function injectAndStartPicker(tabId) {
+  try {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ['content_script.js']
+    });
+    chrome.tabs.sendMessage(tabId, { action: 'start-picker' }, () => {
+      if (chrome.runtime.lastError) {
+        // ignore
+      }
+    });
+  } catch (e) {
+    // ignore
+  }
+}
 
 // Create context menu item
 chrome.runtime.onInstalled.addListener(() => {
@@ -20,12 +31,8 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen for context menu click
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === "eleshot" && tab && tab.id) {
-    chrome.tabs.sendMessage(tab.id, { action: "start-picker" }, () => {
-      if (chrome.runtime.lastError) {
-        // Content script not available on this page; ignore
-      }
-    });
+  if (info.menuItemId === 'eleshot' && tab && tab.id) {
+    injectAndStartPicker(tab.id);
   }
 });
 

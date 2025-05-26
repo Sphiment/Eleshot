@@ -2,7 +2,7 @@
   "name": "Eleshot",
   "version": "1.0",
   "description": "Pixel-perfect captures, zero hassle.",
-  "permissions": ["activeTab", "scripting", "tabs", "clipboardWrite", "contextMenus"],
+  "permissions": ["activeTab", "scripting", "clipboardWrite", "contextMenus"],
   "host_permissions": [],
   "background": {
     "service_worker": "background.js"

@@ -17,10 +17,7 @@
 ## Installation
 
 ### From Chrome Web Store (Recommended)
-
-*[Eleshot on Chrome Web Store](https://chrome.google.com/webstore/detail/your-extension-id))*
-(not yet accepeted)
-
+*[Eleshot on Chrome Web Store](https://chromewebstore.google.com/detail/kkmdkbbodcekbeodpbecknephglifmki))*
 1.  Go to the Eleshot page on the Chrome Web Store.
 2.  Click "Add to Chrome".
 
